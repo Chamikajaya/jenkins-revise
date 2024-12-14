@@ -25,6 +25,7 @@ pipeline {
 
                     sh 'mvn -version'
 
+                    // Load the script.groovy file
                     gv = load "script.groovy"
 
                 }
@@ -58,9 +59,22 @@ pipeline {
         }
 
         stage("DEPLOY") {
+
+            // getting user inputs
+            input {
+                message "Which env to deploy?"
+                ok "Deploy"
+                parameters {
+                    choice(name: 'ENV_1', choices: ['DEV', 'QA', 'PROD'], description: 'Environment to deploy')
+//                     choice(name: 'ENV_2', choices: ['DEV', 'QA', 'PROD'], description: 'Environment to deploy')
+                             }
+            }
+
             steps {
                 script {
                     gv.deployApp()
+                    sh "echo Deploying to ${ENV_1}"  // here no need to use params.choiceName since the params are not global
+//                     sh "echo Deploying to ${ENV_2}"
                 }
             }
         }
