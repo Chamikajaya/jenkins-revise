@@ -10,6 +10,7 @@ pipeline {
 
      parameters {
             string(name: 'NAME', defaultValue: 'Chamika Jayasinghe', description: 'Executor name')
+            booleanParam(name: 'Should_Run_Tests', defaultValue: true, description: 'Should run tests')
      }
 
      stages {
@@ -30,6 +31,38 @@ pipeline {
 
             }
 
+        }
+
+        stage("BUILD") {
+            steps {
+                script {
+                    gv.buildApp()
+                }
+            }
+        }
+
+        stage("TEST") {
+
+            when {
+                expression {
+                    params.Should_Run_Tests
+                }
+            }
+
+            // Only run this stage if the above condition is true
+            steps {
+                script {
+                    gv.testApp()
+                }
+            }
+        }
+
+        stage("DEPLOY") {
+            steps {
+                script {
+                    gv.deployApp()
+                }
+            }
         }
 
      }
