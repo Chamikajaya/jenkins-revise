@@ -1,10 +1,15 @@
-
-def buildApp() {
-    echo "Building app - triggered by ${params.NAME}"  // params and env are available in the script by default
+def buildJar() {
+    echo "Building app"
+//    sh "mvn package"
 }
 
-def testApp() {
-    echo "Testing app"
+def buildDockerImage() {
+    echo "Building Docker Image"
+//    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+//        sh 'docker build -t chamikajay/jenkins-java-simple-app:1.0.0 .'
+//        sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
+//        sh 'docker push chamikajay/jenkins-java-simple-app:1.0.0'
+//    }
 }
 
 def deployApp() {
