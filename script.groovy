@@ -50,7 +50,7 @@ def versionUpdate() {
 
     echo "Committing the version update"
 
-    withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    sshagent(['jenkins-github-ssh']) {
 
         sh 'git config --global user.email jenkins-ec2@jenkins.com'
         sh 'git config  --global user.name jenkins-ec2'
@@ -60,7 +60,7 @@ def versionUpdate() {
         sh 'git branch'
         sh 'git config --list'
 
-        sh 'git remote set-url origin https://${USERNAME}:${PASSWORD}@github.com/Chamikajaya/jenkins-revise.git'
+        sh 'git remote set-url origin git@github.com:Chamikajaya/jenkins-revise.git'
 
         sh 'git add .'
         sh 'git commit -m "version update from Jenkins"'
