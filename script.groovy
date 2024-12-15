@@ -41,7 +41,17 @@ def buildDockerImage() {
 
 def deployApp() {
 
-    echo "Deploying app"
+    echo "Deploying app to ec-2 instance"
+
+    def dockerCommand = "docker run -d -p 8081:8081 chamikajay/jenkins-java-simple-app:$IMAGE_NAME"
+
+    sshagent(['aws-ec2-ssh']) {
+
+        // should have installed docker in the ec-2 instance before this by sshing into the instance
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.201.72.29 $dockerCommand"
+
+
+    }
 
 }
 
