@@ -6,11 +6,11 @@ WORKDIR /app
 
 # Copy the pom.xml and download dependencies
 COPY pom.xml .
-RUN mvn dependency:resolve dependency:resolve-plugins -B -ntp
+RUN mvn dependency:go-offline -B -ntp
 
 # Copy the source code and build the application
 COPY src ./src
-RUN mvn clean package -DskipTests -B -ntp
+RUN mvn clean package -DskipTests
 
 # Stage 2: Create the runtime image
 FROM eclipse-temurin:17-jre-alpine

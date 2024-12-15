@@ -4,7 +4,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'mvn 3.9.9'
+        maven 'mvn-3.9.9'
     }
 
     parameters {
@@ -18,6 +18,14 @@ pipeline {
                     echo "Pipeline initiated by ${params.NAME}"
                     sh 'mvn -version'
                     gv = load "script.groovy"
+                }
+            }
+        }
+
+        stage("INCREMENT_VERSION") {
+            steps {
+                script {
+                    gv.incrementVersion()
                 }
             }
         }
