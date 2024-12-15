@@ -66,9 +66,7 @@ def versionUpdate() {
         sh 'git commit -m "version update from Jenkins"'
         sh 'git push origin HEAD:main'
 
-
     }
-
 }
 
 return this
